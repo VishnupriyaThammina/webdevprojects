@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - Vish </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="nav">
+<h1 class="navtext">Weather Application</h1>
+
+</div>
+
+<div class="wrapper">
+    <div class="imgwrap">
+        <div class="search">
+            <input class="inp" type="text" placeholder="Search Location" spellcheck="false">
+        <button class="b1"><img class="searchicon" src="images/search.png" ></button>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="cont">
+
+
+    <div class="wrap">
+       
+        <div class="weather">
+            <div class="container" style="margin: 1vh;">
+   
+                <div class="c">
+                    <img src="images/snow.png" class="wicon">
+                </div>
+                <div class="c">
+                    <h1 class="temp" style="margin: 1vh;">22°c</h1>
+                    <h2 class="city" style="margin: 1vh;">New York</h2>
+                </div>
+                <div class="c">
+            <img src="images/humidity.png">
+            <p style="margin: 1vh;">Humidity</p>
+            
+            <p class="humidity" style="margin: 1vh;">50%</p>
+            
+                </div>
+                <div class="c">
+            <img src="images/wind.png">
+                    <p class="wind" style="margin: 1vh;">15kmph</p>
+            <p style="margin: 1vh;">Wind speed</p>
+                </div>
+            
+            </div>
+            
+           
+        </div>
+    </div>
+</div>
+<div style="display: flex;background-color: rgb(0, 0, 0); justify-content: center;align-items: center;">
+ 
+ <p style="font-size: smaller; color:white;font: serif;"> Vishnu priya thammina - 2023</p>  
+</div>
+    <script>
+        const apiKey = "6ae34d9bfe9dfd6a90851d9fa03059a3";
+        const apiUrl="https://api.openweathermap.org/data/2.5/weather?q=";
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+        const weatherIcon = document.querySelector(".wicon");
+
+
+async function checkWeather(city){
+    const kkey =apiUrl+city+`&appid=${apiKey}`+"&units=metric";
+    const response = await fetch(kkey);
+    var data = await response.json();
+   
+
+    if(data.cod != 200){
+    document.querySelector(".weather").style.display = "none";
+
+}
+else{
+    document.querySelector(".city").innerHTML = data.name;
+    document.querySelector(".temp").innerHTML = Math.round(data.main.temp)+"°c";
+    document.querySelector(".humidity").innerHTML = data.main.humidity+"%";
+    document.querySelector(".wind").innerHTML = data.wind.speed+"km/h";
+    if(data.weather[0].main == "Clouds"){
+weatherIcon.src="images/clouds.png"
+}else if(data.weather[0].main == "Clear"){
+weatherIcon.src="images/clear.png"
+}else if(data.weather[0].main == "Rain"){
+weatherIcon.src="images/rain.png"
+}else if(data.weather[0].main == "Drizzle"){
+weatherIcon.src="images/drizzle.png"
+}else if(data.weather[0].main == "Mist"){
+weatherIcon.src="images/mist.png"
+}
+document.querySelector(".weather").style.display = "block";
+
+}
+
+
+
+
+}
+searchBtn.addEventListener("click",()=>{
+
+    checkWeather(searchBox.value);
+})
+    </script>
+</body>
+</html>
